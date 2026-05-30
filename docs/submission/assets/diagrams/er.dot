@@ -1,0 +1,17 @@
+digraph ER {
+  rankdir=LR;
+  graph [bgcolor=white, fontname="Helvetica"];
+  node  [shape=record, fontname="Helvetica", fontsize=10, style=filled, fillcolor="#f8fafc", color="#475569"];
+  edge  [fontname="Helvetica", fontsize=10, color="#1d4ed8"];
+
+  users [label="{<t>users|id : TEXT (PK)\lname : TEXT\lemail : TEXT (UNIQUE)\lrole : TEXT\lphone : TEXT\lpassword_hash : TEXT\lcreated_at : TEXT\l}"];
+  sessions [label="{<t>sessions|token : TEXT (PK)\luser_id : TEXT (FK)\lcreated_at : TEXT\l}"];
+  menu_items [label="{<t>menu_items|id : TEXT (PK)\lname : TEXT\lcategory : TEXT\lprice : REAL\lavailable : INTEGER\ldescription : TEXT\l}"];
+  inventory_items [label="{<t>inventory_items|id : TEXT (PK)\lname : TEXT\lquantity : REAL\lunit : TEXT\llow_stock_threshold : REAL\lcategory : TEXT\l}"];
+  orders [label="{<t>orders|id : TEXT (PK)\ltable_number : TEXT\lcustomer_name : TEXT\lstatus : TEXT\ltotal : REAL\lcreated_at : TEXT\lupdated_at : TEXT\l}"];
+  order_items [label="{<t>order_items|id : INTEGER (PK)\lorder_id : TEXT (FK)\lmenu_item_id : TEXT (FK)\lname : TEXT\lprice : REAL\lquantity : INTEGER\l}"];
+
+  users -> sessions [label="  1 : N  (has)"];
+  orders -> order_items [label="  1 : N  (contains)"];
+  menu_items -> order_items [label="  1 : N  (snapshot)", style=dashed];
+}

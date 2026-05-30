@@ -1,0 +1,20 @@
+digraph Workflow {
+  rankdir=LR;
+  graph [bgcolor=white, fontname="Helvetica", fontsize=13];
+  node  [fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", color="#334155"];
+
+  start [shape=circle, style=filled, fillcolor="#dcfce7", color="#16a34a", label="Start", width=0.6];
+  build [shape=box, style="rounded,filled", fillcolor="#e0e7ff", color="#6366f1", label="Staff selects\nmenu items"];
+  submit[shape=box, style="rounded,filled", fillcolor="#e0e7ff", color="#6366f1", label="Submit order\n(table, customer)"];
+  pend  [shape=box, style="rounded,filled", fillcolor="#fef9c3", color="#ca8a04", label="Pending"];
+  prep  [shape=box, style="rounded,filled", fillcolor="#dbeafe", color="#2563eb", label="Preparing"];
+  comp  [shape=box, style="rounded,filled", fillcolor="#dcfce7", color="#16a34a", label="Completed"];
+  bill  [shape=box, style="rounded,filled", fillcolor="#e0e7ff", color="#6366f1", label="Generate &\nprint bill"];
+  end   [shape=doublecircle, style=filled, fillcolor="#dcfce7", color="#16a34a", label="End", width=0.6];
+
+  start -> build -> submit -> pend;
+  pend -> prep [label="Start Preparing"];
+  prep -> comp [label="Mark Complete"];
+  comp -> bill -> end;
+}

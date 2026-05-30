@@ -1,0 +1,16 @@
+digraph Deployment {
+  rankdir=LR;
+  graph [bgcolor=white, fontname="Helvetica", fontsize=13];
+  node  [fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=10, color="#334155"];
+
+  device [shape=box3d, style=filled, fillcolor="#e0e7ff", color="#6366f1",
+          label="User Device\n--------------------\nWeb Browser\n(CafeFlow UI)"];
+  server [shape=box3d, style=filled, fillcolor="#e0f2fe", color="#0284c7",
+          label="Application Server\n--------------------\nNode.js + Next.js\nAPI Route Handlers"];
+  db     [shape=cylinder, style=filled, fillcolor="#dcfce7", color="#16a34a",
+          label="Database\n-----------\nSQLite file\ncafeflow.db"];
+
+  device -> server [label="HTTP / HTTPS\n(JSON)"];
+  server -> db [label="better-sqlite3\n(file I/O)"];
+}

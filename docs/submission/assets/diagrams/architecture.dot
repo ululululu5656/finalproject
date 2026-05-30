@@ -1,0 +1,28 @@
+digraph Architecture {
+  rankdir=TB;
+  graph [bgcolor=white, fontname="Helvetica", fontsize=13, compound=true];
+  node  [fontname="Helvetica", shape=box, style="rounded,filled"];
+  edge  [fontname="Helvetica", fontsize=10, color="#334155"];
+
+  subgraph cluster_client {
+    label="Client  (Web Browser)"; fontname="Helvetica-Bold"; color="#6366f1"; style="rounded";
+    UI    [label="Next.js / React UI\n(pages + UI components)", fillcolor="#e0e7ff", color="#6366f1"];
+    store [label="Zustand State Stores\n(auth, menu, orders, ...)", fillcolor="#e0e7ff", color="#6366f1"];
+  }
+
+  subgraph cluster_server {
+    label="Application Server  (Next.js / Node.js)"; fontname="Helvetica-Bold"; color="#0ea5e9"; style="rounded";
+    api  [label="API Route Handlers\n/api/auth, /api/menu, /api/orders ...", fillcolor="#e0f2fe", color="#0284c7"];
+    auth [label="Auth Module\n(bcrypt + cookie sessions)", fillcolor="#e0f2fe", color="#0284c7"];
+    repo [label="Data Access Layer\n(repository functions)", fillcolor="#e0f2fe", color="#0284c7"];
+  }
+
+  db [label="SQLite Database\n(better-sqlite3, cafeflow.db)", shape=cylinder, fillcolor="#dcfce7", color="#16a34a"];
+
+  UI -> store [dir=both, label="render / update"];
+  store -> api [label="fetch (JSON over HTTP)"];
+  api -> auth [label="guard"];
+  api -> repo [label="query"];
+  auth -> db;
+  repo -> db [label="SQL"];
+}
