@@ -4,7 +4,7 @@ import { ACCOUNTS } from './helpers';
 /**
  * Exhaustive, human-paced walkthrough of CafeFlow — exercises every feature in
  * every module and is recorded as one continuous video under the demo test's
- * test-results folder, and copied to docs/demo-walkthrough.webm.
+ * test-results folder, then converted to MP4 at docs/demo-walkthrough.mp4.
  */
 test('full app demo — every feature, end to end', async ({ page }) => {
   test.setTimeout(240_000);

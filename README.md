@@ -117,16 +117,21 @@ never touch your dev data. A video is recorded for every test.
 ### Full demo video
 
 [`e2e/demo.spec.ts`](e2e/demo.spec.ts) is a single, paced walkthrough of the entire app
-(login → menu → orders → billing → inventory → reports → staff → logout). Running the
-suite records it as one continuous video. A copy is checked in at:
+(login → menu → orders → billing → inventory → reports → staff → logout) that exercises
+every feature. Running the suite records it as one continuous video. The checked-in copy
+(converted to MP4) lives at:
 
 ```
-docs/demo-walkthrough.webm
+docs/demo-walkthrough.mp4
 ```
 
-Re-record it any time with `pnpm test:e2e` — the latest video is written to
-`test-results/demo-full-app-demo-walkthrough-chromium/video.webm` (and the full HTML
-report to `playwright-report/`).
+Re-record it any time with `pnpm test:e2e` — Playwright writes the raw video to
+`test-results/demo-.../video.webm` (and the full HTML report to `playwright-report/`).
+Convert it to MP4 with:
+
+```bash
+ffmpeg -i test-results/demo-*/video.webm -c:v libx264 -pix_fmt yuv420p -movflags +faststart docs/demo-walkthrough.mp4
+```
 
 ---
 
