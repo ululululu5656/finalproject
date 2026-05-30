@@ -25,7 +25,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `node scripts/reset-test-db.mjs && pnpm dev --port ${PORT}`,
+    command: `node scripts/reset-test-db.mjs && npm run dev -- --port ${PORT}`,
     url: BASE_URL,
     reuseExistingServer: false,
     timeout: 120_000,

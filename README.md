@@ -35,7 +35,7 @@ Everything persists to SQLite — refresh the page or restart the server and the
 - **Auth:** `bcryptjs` password hashing + cookie sessions
 - **Charts:** Recharts
 - **Testing:** Playwright (end-to-end)
-- **Package manager:** pnpm
+- **Package manager:** npm (pnpm also supported)
 
 ---
 
@@ -44,21 +44,22 @@ Everything persists to SQLite — refresh the page or restart the server and the
 ### Prerequisites
 
 - Node.js 20+
-- pnpm 10+ (`npm install -g pnpm`)
+- npm 10+ (ships with Node). pnpm also works if you prefer it.
 
 ### Install & run
 
 ```bash
-pnpm install        # installs deps and builds the native SQLite module
-pnpm db:seed        # create + seed the database (auto-runs on first request too)
-pnpm dev            # start the dev server → http://localhost:3000
+npm install         # installs deps and builds the native SQLite module
+npm run dev         # start the dev server → http://localhost:3000
 ```
 
 Then open <http://localhost:3000> and sign in with one of the test accounts below.
 
-> The database is created at `data/cafeflow.db` and **auto-seeds on first use**, so
-> `pnpm db:seed` is optional for local dev — it's mainly there to print the credentials
-> and to support `pnpm db:reset`.
+> The database is created at `data/cafeflow.db` and **auto-seeds on first use**, so the
+> app works straight after `npm run dev` with no extra steps. Run `npm run db:seed` to
+> print the credentials, or `npm run db:reset` to wipe and re-seed.
+>
+> Prefer pnpm? Every command works with `pnpm <script>` too (e.g. `pnpm dev`).
 
 ### Test credentials
 
@@ -77,14 +78,14 @@ in with one click.
 
 | Command | What it does |
 | --- | --- |
-| `pnpm dev` | Run the dev server (Turbopack) |
-| `pnpm build` | Production build |
-| `pnpm start` | Run the production build |
-| `pnpm lint` | Lint the codebase |
-| `pnpm db:seed` | Seed the database if empty (prints test credentials) |
-| `pnpm db:reset` | Wipe and re-seed the database (`--force`) |
-| `pnpm test:e2e` | Run the Playwright end-to-end suite |
-| `pnpm test:e2e:ui` | Run Playwright in interactive UI mode |
+| `npm run dev` | Run the dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Run the production build |
+| `npm run lint` | Lint the codebase |
+| `npm run db:seed` | Seed the database if empty (prints test credentials) |
+| `npm run db:reset` | Wipe and re-seed the database (`--force`) |
+| `npm run test:e2e` | Run the Playwright end-to-end suite |
+| `npm run test:e2e:ui` | Run Playwright in interactive UI mode |
 
 ---
 
@@ -94,9 +95,11 @@ Playwright specs live in [`e2e/`](e2e/) — **25 tests** that drive the app like
 user and cover every feature and function in every module:
 
 ```bash
-pnpm test:e2e          # headless run (boots its own server on :3100 with a fresh test DB)
-pnpm test:e2e:ui       # watch / debug in the Playwright UI
+npm run test:e2e       # headless run (boots its own server on :3100 with a fresh test DB)
+npm run test:e2e:ui    # watch / debug in the Playwright UI
 ```
+
+> First time only: `npx playwright install chromium` to download the browser.
 
 | Spec | What it exercises |
 | --- | --- |
@@ -125,7 +128,7 @@ every feature. Running the suite records it as one continuous video. The checked
 docs/demo-walkthrough.mp4
 ```
 
-Re-record it any time with `pnpm test:e2e` — Playwright writes the raw video to
+Re-record it any time with `npm run test:e2e` — Playwright writes the raw video to
 `test-results/demo-.../video.webm` (and the full HTML report to `playwright-report/`).
 Convert it to MP4 with:
 
