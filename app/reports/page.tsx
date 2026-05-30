@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,43 +8,33 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
+import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
 import { Download, TrendingUp, DollarSign, ShoppingBag, Calendar } from 'lucide-react';
-import { dailySales, topSellingItems, weeklyRevenue } from '@/lib/mock-data';
-import { useOrderStore } from '@/lib/store';
+import { useReportsStore } from '@/lib/store';
 
 const COLORS = ['oklch(0.55 0.18 250)', 'oklch(0.65 0.15 180)', 'oklch(0.55 0.18 145)', 'oklch(0.75 0.15 85)', 'oklch(0.55 0.22 25)'];
 
-const categoryRevenue = [
-  { name: 'Coffee', value: 3245 },
-  { name: 'Tea', value: 1890 },
-  { name: 'Snacks', value: 2456 },
-  { name: 'Drinks', value: 1234 },
-  { name: 'Desserts', value: 987 },
-];
-
-const hourlyData = [
-  { hour: '8AM', orders: 12, revenue: 145 },
-  { hour: '9AM', orders: 25, revenue: 312 },
-  { hour: '10AM', orders: 38, revenue: 456 },
-  { hour: '11AM', orders: 42, revenue: 523 },
-  { hour: '12PM', orders: 55, revenue: 678 },
-  { hour: '1PM', orders: 48, revenue: 589 },
-  { hour: '2PM', orders: 35, revenue: 423 },
-  { hour: '3PM', orders: 28, revenue: 345 },
-  { hour: '4PM', orders: 32, revenue: 398 },
-  { hour: '5PM', orders: 22, revenue: 267 },
-];
-
 export default function ReportsPage() {
-  const orders = useOrderStore((state) => state.orders);
-  
-  const totalRevenue = dailySales.reduce((sum, day) => sum + day.revenue, 0);
-  const totalOrders = dailySales.reduce((sum, day) => sum + day.orders, 0);
-  const avgOrderValue = totalRevenue / totalOrders;
+  const data = useReportsStore((state) => state.data);
+  const load = useReportsStore((state) => state.load);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const dailySales = data?.dailySales ?? [];
+  const topSellingItems = data?.topItems ?? [];
+  const weeklyRevenue = data?.weeklyRevenue ?? [];
+  const categoryRevenue = data?.categoryRevenue ?? [];
+  const hourlyData = data?.hourlyData ?? [];
+
+  const totalRevenue = data?.summary.totalRevenue ?? 0;
+  const totalOrders = data?.summary.totalOrders ?? 0;
+  const avgOrderValue = data?.summary.avgOrderValue ?? 0;
+  const ordersToday = data?.summary.ordersToday ?? 0;
 
   const formattedDailySales = dailySales.map((item) => ({
     ...item,
@@ -51,7 +42,7 @@ export default function ReportsPage() {
   }));
 
   return (
-    <DashboardLayout title="Reports & Analytics">
+    <DashboardLayout title="Reports & Analytics" requireAdmin>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -127,7 +118,7 @@ export default function ReportsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Orders Today</p>
-                  <p className="text-2xl font-bold">{dailySales[dailySales.length - 1].orders}</p>
+                  <p className="text-2xl font-bold">{ordersToday}</p>
                   <p className="text-sm text-destructive">-15% from yesterday</p>
                 </div>
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-chart-4/10">

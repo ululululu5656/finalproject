@@ -15,7 +15,7 @@ interface MenuItemDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   item?: MenuItem | null;
-  onSave: (item: Omit<MenuItem, 'id'>) => void;
+  onSave: (item: Omit<MenuItem, 'id'>) => void | Promise<void>;
 }
 
 const categories = ['Coffee', 'Tea', 'Snacks', 'Drinks', 'Desserts'] as const;
@@ -53,8 +53,7 @@ export function MenuItemDialog({ open, onOpenChange, item, onSave }: MenuItemDia
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    onSave(formData);
+    await onSave(formData);
     setIsLoading(false);
     onOpenChange(false);
   };

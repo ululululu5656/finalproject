@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, Search, LayoutGrid, List, Filter } from 'lucide-react';
 import { toast } from 'sonner';
 import { DashboardLayout } from '@/components/dashboard-layout';
@@ -18,7 +18,7 @@ type ViewMode = 'table' | 'cards';
 type CategoryFilter = 'all' | MenuItem['category'];
 
 export default function MenuPage() {
-  const { items, addItem, updateItem, deleteItem, toggleAvailability } = useMenuStore();
+  const { items, load, addItem, updateItem, deleteItem, toggleAvailability } = useMenuStore();
   const user = useAuthStore((state) => state.user);
   const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,6 +27,10 @@ export default function MenuPage() {
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
 
   const isAdmin = user?.role === 'admin';
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -37,15 +41,19 @@ export default function MenuPage() {
     });
   }, [items, searchQuery, categoryFilter]);
 
-  const handleSave = (itemData: Omit<MenuItem, 'id'>) => {
-    if (editingItem) {
-      updateItem(editingItem.id, itemData);
-      toast.success('Menu item updated successfully');
-    } else {
-      addItem(itemData);
-      toast.success('Menu item added successfully');
+  const handleSave = async (itemData: Omit<MenuItem, 'id'>) => {
+    try {
+      if (editingItem) {
+        await updateItem(editingItem.id, itemData);
+        toast.success('Menu item updated successfully');
+      } else {
+        await addItem(itemData);
+        toast.success('Menu item added successfully');
+      }
+      setEditingItem(null);
+    } catch (err) {
+      toast.error((err as Error).message);
     }
-    setEditingItem(null);
   };
 
   const handleEdit = (item: MenuItem) => {
@@ -53,15 +61,23 @@ export default function MenuPage() {
     setDialogOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    deleteItem(id);
-    toast.success('Menu item deleted');
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteItem(id);
+      toast.success('Menu item deleted');
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
-  const handleToggleAvailability = (id: string) => {
-    toggleAvailability(id);
-    const item = items.find(i => i.id === id);
-    toast.success(`${item?.name} is now ${item?.available ? 'unavailable' : 'available'}`);
+  const handleToggleAvailability = async (id: string) => {
+    const item = items.find((i) => i.id === id);
+    try {
+      await toggleAvailability(id);
+      toast.success(`${item?.name} is now ${item?.available ? 'unavailable' : 'available'}`);
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
   const handleNewItem = () => {
@@ -70,7 +86,7 @@ export default function MenuPage() {
   };
 
   return (
-    <DashboardLayout title="Menu Management">
+    <DashboardLayout title="Menu Management" requireAdmin>
       <div className="space-y-6">
         {/* Toolbar */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -105,6 +121,7 @@ export default function MenuPage() {
                 variant={viewMode === 'table' ? 'secondary' : 'ghost'}
                 size="icon"
                 className="h-8 w-8"
+                aria-label="Table view"
                 onClick={() => setViewMode('table')}
               >
                 <List className="h-4 w-4" />
@@ -113,6 +130,7 @@ export default function MenuPage() {
                 variant={viewMode === 'cards' ? 'secondary' : 'ghost'}
                 size="icon"
                 className="h-8 w-8"
+                aria-label="Card view"
                 onClick={() => setViewMode('cards')}
               >
                 <LayoutGrid className="h-4 w-4" />

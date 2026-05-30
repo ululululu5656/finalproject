@@ -1,17 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { NewOrderForm } from '@/components/orders/new-order-form';
 import { OrderList } from '@/components/orders/order-list';
-import { useOrderStore } from '@/lib/store';
+import { useOrderStore, useMenuStore } from '@/lib/store';
 import type { OrderStatus } from '@/lib/types';
 
 export default function OrdersPage() {
   const orders = useOrderStore((state) => state.orders);
+  const loadOrders = useOrderStore((state) => state.load);
+  const loadMenu = useMenuStore((state) => state.load);
   const [activeTab, setActiveTab] = useState('new');
+
+  useEffect(() => {
+    loadOrders();
+    loadMenu();
+  }, [loadOrders, loadMenu]);
 
   const getStatusCount = (status: OrderStatus) => {
     return orders.filter((order) => order.status === status).length;

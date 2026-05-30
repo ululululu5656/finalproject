@@ -2,9 +2,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { weeklyRevenue } from '@/lib/mock-data';
+import { useReportsStore } from '@/lib/store';
 
 export function RevenueChart() {
+  const data = useReportsStore((state) => state.data);
+  const weeklyRevenue = data?.weeklyRevenue ?? [];
   return (
     <Card className="border-border shadow-sm">
       <CardHeader>

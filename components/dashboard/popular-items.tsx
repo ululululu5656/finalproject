@@ -1,11 +1,13 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { topSellingItems } from '@/lib/mock-data';
+import { useReportsStore } from '@/lib/store';
 import { TrendingUp } from 'lucide-react';
 
 export function PopularItems() {
-  const maxQuantity = Math.max(...topSellingItems.map(item => item.quantity));
+  const data = useReportsStore((state) => state.data);
+  const topItems = data?.topItems ?? [];
+  const maxQuantity = Math.max(1, ...topItems.map((item) => item.quantity));
 
   return (
     <Card className="border-border shadow-sm">
@@ -17,30 +19,34 @@ export function PopularItems() {
         <CardDescription>Top selling items this week</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {topSellingItems.map((item, index) => (
-            <div key={item.name} className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
-                    {index + 1}
-                  </span>
-                  <span className="font-medium text-foreground">{item.name}</span>
+        {topItems.length === 0 ? (
+          <p className="py-8 text-center text-sm text-muted-foreground">No sales data yet</p>
+        ) : (
+          <div className="space-y-4">
+            {topItems.map((item, index) => (
+              <div key={item.name} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
+                      {index + 1}
+                    </span>
+                    <span className="font-medium text-foreground">{item.name}</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-foreground">{item.quantity} sold</p>
+                    <p className="text-xs text-muted-foreground">${item.revenue.toFixed(2)}</p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-foreground">{item.quantity} sold</p>
-                  <p className="text-xs text-muted-foreground">${item.revenue.toFixed(2)}</p>
+                <div className="h-2 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full bg-primary transition-all"
+                    style={{ width: `${(item.quantity / maxQuantity) * 100}%` }}
+                  />
                 </div>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all"
-                  style={{ width: `${(item.quantity / maxQuantity) * 100}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   );

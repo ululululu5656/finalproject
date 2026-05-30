@@ -1,4 +1,10 @@
-import type { MenuItem, Order, InventoryItem, StaffMember, DailySales, TopSellingItem } from './types';
+import type { MenuItem, InventoryItem, StaffMember } from './types';
+
+/**
+ * Reference data used to seed the SQLite database on first run
+ * (see lib/db.ts). Orders and analytics are generated at seed time and
+ * served from the database, so they no longer live here.
+ */
 
 export const menuItems: MenuItem[] = [
   { id: '1', name: 'Espresso', category: 'Coffee', price: 3.50, available: true, description: 'Rich and bold single shot' },
@@ -21,86 +27,6 @@ export const menuItems: MenuItem[] = [
   { id: '18', name: 'Chocolate Brownie', category: 'Desserts', price: 4.00, available: true, description: 'Rich and fudgy' },
   { id: '19', name: 'Cheesecake', category: 'Desserts', price: 5.50, available: true, description: 'New York style' },
   { id: '20', name: 'Tiramisu', category: 'Desserts', price: 6.00, available: false, description: 'Classic Italian dessert' },
-];
-
-export const orders: Order[] = [
-  {
-    id: 'ORD-001',
-    items: [
-      { menuItem: menuItems[1], quantity: 2 },
-      { menuItem: menuItems[10], quantity: 1 },
-    ],
-    tableNumber: '5',
-    customerName: 'John D.',
-    status: 'completed',
-    total: 12.50,
-    createdAt: new Date('2026-04-15T09:30:00'),
-    updatedAt: new Date('2026-04-15T09:45:00'),
-  },
-  {
-    id: 'ORD-002',
-    items: [
-      { menuItem: menuItems[2], quantity: 1 },
-      { menuItem: menuItems[17], quantity: 1 },
-    ],
-    tableNumber: '3',
-    customerName: 'Sarah M.',
-    status: 'preparing',
-    total: 8.75,
-    createdAt: new Date('2026-04-15T10:15:00'),
-    updatedAt: new Date('2026-04-15T10:20:00'),
-  },
-  {
-    id: 'ORD-003',
-    items: [
-      { menuItem: menuItems[5], quantity: 1 },
-      { menuItem: menuItems[12], quantity: 1 },
-    ],
-    tableNumber: '8',
-    customerName: 'Mike R.',
-    status: 'pending',
-    total: 12.75,
-    createdAt: new Date('2026-04-15T10:30:00'),
-    updatedAt: new Date('2026-04-15T10:30:00'),
-  },
-  {
-    id: 'ORD-004',
-    items: [
-      { menuItem: menuItems[8], quantity: 2 },
-      { menuItem: menuItems[11], quantity: 2 },
-    ],
-    tableNumber: '2',
-    customerName: 'Emma W.',
-    status: 'pending',
-    total: 15.50,
-    createdAt: new Date('2026-04-15T10:45:00'),
-    updatedAt: new Date('2026-04-15T10:45:00'),
-  },
-  {
-    id: 'ORD-005',
-    items: [
-      { menuItem: menuItems[0], quantity: 3 },
-      { menuItem: menuItems[18], quantity: 1 },
-    ],
-    tableNumber: '12',
-    customerName: 'Alex P.',
-    status: 'completed',
-    total: 16.00,
-    createdAt: new Date('2026-04-15T08:00:00'),
-    updatedAt: new Date('2026-04-15T08:20:00'),
-  },
-  {
-    id: 'ORD-006',
-    items: [
-      { menuItem: menuItems[3], quantity: 1 },
-      { menuItem: menuItems[13], quantity: 1 },
-    ],
-    tableNumber: '7',
-    status: 'preparing',
-    total: 8.25,
-    createdAt: new Date('2026-04-15T11:00:00'),
-    updatedAt: new Date('2026-04-15T11:05:00'),
-  },
 ];
 
 export const inventoryItems: InventoryItem[] = [
@@ -128,29 +54,4 @@ export const staffMembers: StaffMember[] = [
   { id: '4', name: 'Lisa Thompson', email: 'lisa@cafe.com', role: 'staff', phone: '+1 555-0104', joinedAt: new Date('2024-04-20') },
   { id: '5', name: 'Robert Brown', email: 'robert@cafe.com', role: 'staff', phone: '+1 555-0105', joinedAt: new Date('2024-06-01') },
   { id: '6', name: 'Jennifer Lee', email: 'jennifer@cafe.com', role: 'staff', phone: '+1 555-0106', joinedAt: new Date('2024-08-15') },
-];
-
-export const dailySales: DailySales[] = [
-  { date: '2026-04-09', revenue: 1245.50, orders: 78 },
-  { date: '2026-04-10', revenue: 1389.25, orders: 92 },
-  { date: '2026-04-11', revenue: 1567.00, orders: 105 },
-  { date: '2026-04-12', revenue: 1823.75, orders: 118 },
-  { date: '2026-04-13', revenue: 2156.50, orders: 142 },
-  { date: '2026-04-14', revenue: 1945.25, orders: 128 },
-  { date: '2026-04-15', revenue: 892.50, orders: 54 },
-];
-
-export const topSellingItems: TopSellingItem[] = [
-  { name: 'Cappuccino', quantity: 145, revenue: 652.50 },
-  { name: 'Latte', quantity: 132, revenue: 627.00 },
-  { name: 'Croissant', quantity: 98, revenue: 343.00 },
-  { name: 'Americano', quantity: 87, revenue: 326.25 },
-  { name: 'Avocado Toast', quantity: 65, revenue: 552.50 },
-];
-
-export const weeklyRevenue = [
-  { week: 'Week 1', revenue: 8245 },
-  { week: 'Week 2', revenue: 9120 },
-  { week: 'Week 3', revenue: 10530 },
-  { week: 'Week 4', revenue: 11019 },
 ];

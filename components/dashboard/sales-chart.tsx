@@ -2,9 +2,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { dailySales } from '@/lib/mock-data';
+import { useReportsStore } from '@/lib/store';
 
 export function SalesChart() {
+  const data = useReportsStore((state) => state.data);
+  const dailySales = data?.dailySales ?? [];
   const formattedData = dailySales.map((item) => ({
     ...item,
     date: new Date(item.date).toLocaleDateString('en-US', { weekday: 'short' }),

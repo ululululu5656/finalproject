@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { DollarSign, ShoppingBag, TrendingUp, Package } from 'lucide-react';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { StatCard } from '@/components/dashboard/stat-card';
@@ -8,18 +9,27 @@ import { RevenueChart } from '@/components/dashboard/revenue-chart';
 import { PopularItems } from '@/components/dashboard/popular-items';
 import { LowStockAlerts } from '@/components/dashboard/low-stock-alerts';
 import { RecentOrders } from '@/components/dashboard/recent-orders';
-import { useOrderStore, useInventoryStore, useAuthStore } from '@/lib/store';
-import { dailySales } from '@/lib/mock-data';
+import { useOrderStore, useInventoryStore, useAuthStore, useReportsStore } from '@/lib/store';
 
 export default function DashboardPage() {
   const orders = useOrderStore((state) => state.orders);
+  const loadOrders = useOrderStore((state) => state.load);
   const inventoryItems = useInventoryStore((state) => state.items);
+  const loadInventory = useInventoryStore((state) => state.load);
+  const reports = useReportsStore((state) => state.data);
+  const loadReports = useReportsStore((state) => state.load);
   const user = useAuthStore((state) => state.user);
-  
-  const todayOrders = orders.filter(o => o.status !== 'cancelled');
-  const todayRevenue = dailySales[dailySales.length - 1].revenue;
-  const lowStockCount = inventoryItems.filter(item => item.quantity <= item.lowStockThreshold).length;
-  
+
+  useEffect(() => {
+    loadOrders();
+    loadInventory();
+    loadReports();
+  }, [loadOrders, loadInventory, loadReports]);
+
+  const todayOrders = orders.filter((o) => o.status !== 'cancelled');
+  const todayRevenue = reports?.summary.revenueToday ?? 0;
+  const lowStockCount = inventoryItems.filter((item) => item.quantity <= item.lowStockThreshold).length;
+
   const isAdmin = user?.role === 'admin';
 
   return (

@@ -43,7 +43,7 @@ export function NewOrderForm() {
     toast.success(`Added ${item.name} to order`);
   };
 
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
     if (!tableNumber) {
       toast.error('Please enter a table number');
       return;
@@ -52,10 +52,14 @@ export function NewOrderForm() {
       toast.error('Please add items to the order');
       return;
     }
-    submitOrder(tableNumber, customerName || undefined);
-    setTableNumber('');
-    setCustomerName('');
-    toast.success('Order submitted successfully!');
+    try {
+      await submitOrder(tableNumber, customerName || undefined);
+      setTableNumber('');
+      setCustomerName('');
+      toast.success('Order submitted successfully!');
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
   return (
@@ -167,6 +171,7 @@ export function NewOrderForm() {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
+                            aria-label="Decrease quantity"
                             onClick={() => {
                               if (orderItem.quantity > 1) {
                                 updateQuantity(orderItem.menuItem.id, orderItem.quantity - 1);
@@ -182,6 +187,7 @@ export function NewOrderForm() {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
+                            aria-label="Increase quantity"
                             onClick={() => updateQuantity(orderItem.menuItem.id, orderItem.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
@@ -191,6 +197,7 @@ export function NewOrderForm() {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-destructive hover:text-destructive"
+                          aria-label="Remove item"
                           onClick={() => removeFromCurrentOrder(orderItem.menuItem.id)}
                         >
                           <Trash2 className="h-4 w-4" />

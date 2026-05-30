@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Search, Users, Shield, User, Mail, Phone, Calendar, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { DashboardLayout } from '@/components/dashboard-layout';
@@ -18,7 +18,7 @@ import { useStaffStore, useAuthStore } from '@/lib/store';
 import type { StaffMember, UserRole } from '@/lib/types';
 
 export default function StaffPage() {
-  const { staff, addStaff, removeStaff } = useStaffStore();
+  const { staff, load, addStaff, removeStaff } = useStaffStore();
   const user = useAuthStore((state) => state.user);
   const [searchQuery, setSearchQuery] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -33,6 +33,10 @@ export default function StaffPage() {
 
   const isAdmin = user?.role === 'admin';
 
+  useEffect(() => {
+    load();
+  }, [load]);
+
   const filteredStaff = staff.filter((member) => {
     const searchLower = searchQuery.toLowerCase();
     return (
@@ -45,28 +49,35 @@ export default function StaffPage() {
   const adminCount = staff.filter((m) => m.role === 'admin').length;
   const staffCount = staff.filter((m) => m.role === 'staff').length;
 
-  const handleAddStaff = () => {
+  const handleAddStaff = async () => {
     if (!formData.name || !formData.email) {
       toast.error('Please fill in name and email');
       return;
     }
 
-    addStaff({
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone || undefined,
-      role: formData.role,
-    });
-    
-    toast.success('Staff member added successfully');
-    setDialogOpen(false);
-    setFormData({ name: '', email: '', phone: '', role: 'staff' });
+    try {
+      await addStaff({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        role: formData.role,
+      });
+      toast.success('Staff member added successfully');
+      setDialogOpen(false);
+      setFormData({ name: '', email: '', phone: '', role: 'staff' });
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
-  const handleDeleteStaff = () => {
-    if (staffToDelete) {
-      removeStaff(staffToDelete.id);
+  const handleDeleteStaff = async () => {
+    if (!staffToDelete) return;
+    try {
+      await removeStaff(staffToDelete.id);
       toast.success('Staff member removed');
+    } catch (err) {
+      toast.error((err as Error).message);
+    } finally {
       setDeleteConfirmOpen(false);
       setStaffToDelete(null);
     }
@@ -94,7 +105,7 @@ export default function StaffPage() {
   };
 
   return (
-    <DashboardLayout title="Staff Management">
+    <DashboardLayout title="Staff Management" requireAdmin>
       <div className="space-y-6">
         {/* Stats */}
         <div className="grid gap-4 sm:grid-cols-3">

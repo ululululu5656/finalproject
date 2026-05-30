@@ -31,9 +31,13 @@ export function OrderList({ filter = 'all' }: OrderListProps) {
     ? orders
     : orders.filter((order) => order.status === filter);
 
-  const handleStatusUpdate = (orderId: string, newStatus: OrderStatus) => {
-    updateOrderStatus(orderId, newStatus);
-    toast.success(`Order status updated to ${newStatus}`);
+  const handleStatusUpdate = async (orderId: string, newStatus: OrderStatus) => {
+    try {
+      await updateOrderStatus(orderId, newStatus);
+      toast.success(`Order status updated to ${newStatus}`);
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
   const formatTime = (date: Date) => {

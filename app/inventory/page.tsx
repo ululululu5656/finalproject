@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Plus, Search, Package, AlertTriangle, Filter } from 'lucide-react';
 import { toast } from 'sonner';
 import { DashboardLayout } from '@/components/dashboard-layout';
@@ -19,7 +19,7 @@ import type { InventoryItem } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 export default function InventoryPage() {
-  const { items, addItem, updateItem, deleteItem } = useInventoryStore();
+  const { items, load, addItem, updateItem, deleteItem } = useInventoryStore();
   const user = useAuthStore((state) => state.user);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -34,6 +34,10 @@ export default function InventoryPage() {
   });
 
   const isAdmin = user?.role === 'admin';
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const categories = useMemo(() => {
     return ['all', ...new Set(items.map((item) => item.category))];
@@ -74,25 +78,33 @@ export default function InventoryPage() {
     setDialogOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.name || !formData.unit || !formData.category) {
       toast.error('Please fill in all required fields');
       return;
     }
 
-    if (editingItem) {
-      updateItem(editingItem.id, formData);
-      toast.success('Inventory item updated');
-    } else {
-      addItem(formData);
-      toast.success('Inventory item added');
+    try {
+      if (editingItem) {
+        await updateItem(editingItem.id, formData);
+        toast.success('Inventory item updated');
+      } else {
+        await addItem(formData);
+        toast.success('Inventory item added');
+      }
+      setDialogOpen(false);
+    } catch (err) {
+      toast.error((err as Error).message);
     }
-    setDialogOpen(false);
   };
 
-  const handleDelete = (id: string) => {
-    deleteItem(id);
-    toast.success('Inventory item deleted');
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteItem(id);
+      toast.success('Inventory item deleted');
+    } catch (err) {
+      toast.error((err as Error).message);
+    }
   };
 
   const getStockStatus = (item: InventoryItem) => {
@@ -107,7 +119,7 @@ export default function InventoryPage() {
   };
 
   return (
-    <DashboardLayout title="Inventory Management">
+    <DashboardLayout title="Inventory Management" requireAdmin>
       <div className="space-y-6">
         {/* Stats */}
         <div className="grid gap-4 sm:grid-cols-3">

@@ -1,0 +1,180 @@
+# CafeFlow — Cafe Management System
+
+A full-stack cafe management system built with **Next.js 16 (App Router)**, **React 19**,
+**Tailwind CSS 4**, and a **SQLite** database. It covers authentication, menu management,
+order taking, billing, inventory, staff management, and reporting/analytics, with
+role-based access for **admins** and **staff**.
+
+This is a final-year project (FYP). Project documentation and diagrams live in [`docs/`](docs/).
+
+---
+
+## Features
+
+| Module | Description | Access |
+| --- | --- | --- |
+| **Auth** | Email + password login, bcrypt-hashed passwords, httpOnly session cookies | Everyone |
+| **Dashboard** | Live stats (orders, revenue, low stock), charts, recent orders | Admin + Staff |
+| **Menu** | Create / edit / delete items, toggle availability, search & filter | Admin |
+| **Orders** | Build an order from the menu, submit, track status (pending → preparing → completed) | Admin + Staff |
+| **Billing** | Generate and preview itemised bills for orders | Admin + Staff |
+| **Inventory** | Track stock, units and low-stock thresholds | Admin |
+| **Reports** | Revenue trends, top items, category split, hourly performance — derived from real orders | Admin |
+| **Staff** | Manage the team (add/remove users and roles) | Admin |
+
+Everything persists to SQLite — refresh the page or restart the server and the data is still there.
+
+---
+
+## Tech stack
+
+- **Framework:** Next.js 16 (App Router, Route Handlers), React 19
+- **Styling:** Tailwind CSS 4, shadcn/ui (Radix UI), lucide-react icons
+- **State:** Zustand stores backed by REST API routes
+- **Database:** SQLite via `better-sqlite3`
+- **Auth:** `bcryptjs` password hashing + cookie sessions
+- **Charts:** Recharts
+- **Testing:** Playwright (end-to-end)
+- **Package manager:** pnpm
+
+---
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 20+
+- pnpm 10+ (`npm install -g pnpm`)
+
+### Install & run
+
+```bash
+pnpm install        # installs deps and builds the native SQLite module
+pnpm db:seed        # create + seed the database (auto-runs on first request too)
+pnpm dev            # start the dev server → http://localhost:3000
+```
+
+Then open <http://localhost:3000> and sign in with one of the test accounts below.
+
+> The database is created at `data/cafeflow.db` and **auto-seeds on first use**, so
+> `pnpm db:seed` is optional for local dev — it's mainly there to print the credentials
+> and to support `pnpm db:reset`.
+
+### Test credentials
+
+| Role | Email | Password |
+| --- | --- | --- |
+| **Admin** | `admin@cafe.com` | `admin123` |
+| **Staff** | `staff@cafe.com` | `staff123` |
+
+The seeded staff roster (David, Maria, James, …) can also sign in with the password
+`password123`. The login screen shows the two primary accounts and lets you fill them
+in with one click.
+
+---
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Run the dev server (Turbopack) |
+| `pnpm build` | Production build |
+| `pnpm start` | Run the production build |
+| `pnpm lint` | Lint the codebase |
+| `pnpm db:seed` | Seed the database if empty (prints test credentials) |
+| `pnpm db:reset` | Wipe and re-seed the database (`--force`) |
+| `pnpm test:e2e` | Run the Playwright end-to-end suite |
+| `pnpm test:e2e:ui` | Run Playwright in interactive UI mode |
+
+---
+
+## End-to-end tests
+
+Playwright specs live in [`e2e/`](e2e/) — **25 tests** that drive the app like a real
+user and cover every feature and function in every module:
+
+```bash
+pnpm test:e2e          # headless run (boots its own server on :3100 with a fresh test DB)
+pnpm test:e2e:ui       # watch / debug in the Playwright UI
+```
+
+| Spec | What it exercises |
+| --- | --- |
+| `auth.spec.ts` | Login, invalid credentials, admin vs staff navigation, route guards, logout |
+| `dashboard.spec.ts` | Admin stats + charts; the limited staff view |
+| `menu.spec.ts` | Search, category filter, table/card views, add, toggle availability, edit, delete |
+| `orders.spec.ts` | Category filter, cart add/increase/decrease/remove/clear, submit, tabs, view details, status pipeline |
+| `billing.spec.ts` | Empty state, search, select order, bill preview, print |
+| `inventory.spec.ts` | Search, category filter, add, edit, delete |
+| `staff.spec.ts` | Stat cards, add with role, search, delete with confirmation |
+| `reports.spec.ts` | Summary cards, analytics tabs, date-range selector, export |
+| `demo.spec.ts` | One continuous walkthrough of everything above (the demo video) |
+
+The suite spins up the app on port `3100` against a throwaway database
+(`data/cafeflow-test.db`) that is reset before each run, so tests are deterministic and
+never touch your dev data. A video is recorded for every test.
+
+### Full demo video
+
+[`e2e/demo.spec.ts`](e2e/demo.spec.ts) is a single, paced walkthrough of the entire app
+(login → menu → orders → billing → inventory → reports → staff → logout). Running the
+suite records it as one continuous video. A copy is checked in at:
+
+```
+docs/demo-walkthrough.webm
+```
+
+Re-record it any time with `pnpm test:e2e` — the latest video is written to
+`test-results/demo-full-app-demo-walkthrough-chromium/video.webm` (and the full HTML
+report to `playwright-report/`).
+
+---
+
+## Project structure
+
+```
+app/
+  api/                 REST route handlers (auth, menu, orders, inventory, staff, reports)
+  dashboard/ menu/ …   page routes (one folder per module)
+  login/               email + password login screen
+  layout.tsx           root layout
+components/
+  ui/                  shadcn/ui primitives
+  dashboard/ menu/ …   feature components
+  app-sidebar, app-header, dashboard-layout (shell + auth guard)
+lib/
+  db.ts                SQLite connection, schema, seeding
+  repo.ts              typed data-access functions
+  auth.ts              password hashing + session management
+  api.ts               route-handler auth guard
+  store.ts             Zustand stores (API-backed)
+  mock-data.ts         reference data used to seed the DB
+  types.ts             shared TypeScript types
+e2e/                   Playwright tests + the demo walkthrough
+scripts/               seed / reset helpers
+docs/                  FYP report, proposal, diagrams, demo video
+data/                  SQLite database (git-ignored)
+```
+
+---
+
+## Architecture notes
+
+- **Data flow:** UI → Zustand store → `fetch` → Next.js Route Handler → `lib/repo` →
+  SQLite. Stores normalise API responses (e.g. ISO date strings → `Date`).
+- **Auth:** Login verifies the bcrypt hash, creates a row in `sessions`, and sets an
+  httpOnly cookie. Every protected route handler validates the session via `authGuard`,
+  and admin-only mutations require the `admin` role. The client also guards admin-only
+  pages (`requireAdmin`) and redirects unauthenticated users to `/login`.
+- **Database:** A single file (`data/cafeflow.db`) with tables for `users`, `sessions`,
+  `menu_items`, `inventory_items`, `orders`, and `order_items`. The schema is created on
+  first connect and seeded when empty. Order line items snapshot the item name/price so
+  historical bills stay correct even if the menu later changes.
+- **Reports** are computed from real order data, so the dashboard and analytics reflect
+  whatever orders exist in the database.
+
+---
+
+## License
+
+Educational / final-year-project use.

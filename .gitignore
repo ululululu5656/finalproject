@@ -14,3 +14,15 @@ next.user-config.*
 node_modules
 .next/
 .DS_Store
+
+# SQLite database (generated/seeded locally)
+/data/
+*.db
+*.db-shm
+*.db-wal
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

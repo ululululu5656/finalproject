@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,9 +15,14 @@ import type { Order } from '@/lib/types';
 
 export default function BillingPage() {
   const orders = useOrderStore((state) => state.orders);
+  const loadOrders = useOrderStore((state) => state.load);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const billRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   const completedOrders = orders.filter(
     (order) => order.status === 'completed' || order.status === 'preparing'
