@@ -30,6 +30,7 @@
 \titlespacing*{\chapter}{0pt}{30pt}{30pt}
 
 \newcommand{\fyptitle}{CafeFlow - A Cafe Management System}
+\renewcommand{\bibname}{References}
 
 \begin{document}
 
@@ -149,8 +150,7 @@ consistent, and data-driven platform, CafeFlow reduces service time, improves bi
 accuracy, and gives cafe owners clear visibility into their business.
 
 \vspace{6mm}
-\textbf{Keywords:} \textbf{Cafe Management}, \textbf{Order Management}, \textbf{Billing},
-\textbf{Inventory}, \textbf{Web Application}, \textbf{SQLite}.
+\textbf{Keywords:} Cafe Management, Order Management, Billing, Inventory, Web Application.
 
 % ======================================================= ACKNOWLEDGEMENT
 \chapter*{ACKNOWLEDGEMENT}
@@ -239,7 +239,7 @@ date, and making sure ingredients do not run out. In many small and medium cafes
 are still performed manually using notebooks, verbal communication, and spreadsheets. This
 manual approach is slow, error-prone, and offers no reliable view of sales or stock.
 
-To address these problems, this project proposes \textbf{CafeFlow}, a web-based cafe
+To address these problems, this project proposes CafeFlow, a web-based cafe
 management system that brings the core operations of a cafe into a single platform. The system
 allows staff to take and track orders, generate itemised bills, and view a live operational
 dashboard, while administrators additionally manage the menu, monitor inventory and low-stock
@@ -353,23 +353,61 @@ on existing devices, requires no installation, and focuses on the specific needs
 fast ordering, accurate billing, simple inventory control, and clear sales insight.
 
 \section{Literature Review}
-Research and practice in restaurant and cafe automation consistently show that digitising
-order and billing processes reduces service time and human error. Point-of-sale systems are
-widely recognised for improving transaction accuracy and producing sales data that supports
-inventory and demand planning.
+This section reviews existing research and systems related to restaurant and cafe automation,
+point-of-sale technology, web-based management systems, and usability in small-business
+software. The reviewed works establish the gap that CafeFlow addresses and justify the design
+decisions taken in this project.
 
-Modern web technologies have made such systems easier to build and deploy. Component-based
-front-end libraries such as React allow complex, interactive interfaces to be developed
-efficiently, while full-stack frameworks like Next.js unify the user interface and server-side
-logic in a single codebase. Lightweight embedded databases such as SQLite provide reliable,
-zero-configuration data storage that is well suited to single-outlet applications.
+\textbf{1. Point-of-Sale Systems in Food and Beverage.}
+Ramos and Castro~\cite{lit_pos} studied point-of-sale (POS) systems in the food and beverage
+industry and found that, while such systems deliver clear efficiency gains in order taking and
+billing, their real-world benefit depends strongly on user acceptance and ease of use. Their
+findings support the central premise of this project, that replacing manual order and billing
+workflows with a digital system improves speed and accuracy, while also highlighting that the
+interface must be simple enough for staff to adopt. CafeFlow responds to both points by
+digitising the order-to-bill workflow behind a clean, role-based interface.
 
-Studies on usability in small-business software emphasise that adoption depends heavily on
-simplicity: systems that require minimal training and run on familiar devices are far more
-likely to be used consistently. CafeFlow is designed around these findings, prioritising a
-clean, role-based interface, fast workflows, and accessibility from any modern browser. By
-combining these established ideas, the project delivers a focused cafe management system that
-is practical for small establishments.
+\textbf{2. Web-Based, Layered System Architecture.}
+Fielding~\cite{lit_web} formalised the client--server and layered architectural constraints
+behind modern web systems, showing that separating user-interface concerns from data-storage
+concerns improves portability and scalability and allows components to evolve independently.
+CafeFlow adopts exactly this separation: a browser-based React interface communicates over HTTP
+with server-side API handlers that sit above a data-access layer, keeping the system
+maintainable and accessible from any networked device without local installation.
+
+\textbf{3. Component-Based Front-End Frameworks.}
+A comparative study of front-end frameworks~\cite{lit_react} analyses React, Angular, and Vue and
+concludes that component-based libraries such as React allow complex, interactive interfaces to
+be built efficiently through reusable components and a predictable, state-driven rendering model,
+and that framework choice should be a reasoned decision. This is directly relevant to CafeFlow,
+whose order-builder, dashboard, and reporting screens are highly interactive and benefit from a
+component-based structure with client-side state management.
+
+\textbf{4. Lightweight Embedded Databases.}
+Gaffney et al.~\cite{lit_sqlite}, in a study of SQLite, describe it as a serverless,
+zero-configuration, fully transactional relational database that is the most widely deployed
+database engine in the world and is well suited to embedded and single-application use where the
+overhead of a dedicated database server is unjustified. CafeFlow uses SQLite for exactly this
+reason: a single cafe outlet needs reliable, ACID-compliant persistence without the cost and
+administration of a separate database server.
+
+\textbf{5. Usability and Technology Acceptance.}
+Nielsen~\cite{lit_usability} derived a refined set of usability heuristics from a factor analysis
+of real usability problems, providing principles such as visibility of system status,
+consistency, error prevention, and minimalist design. Complementing this, Davis'
+Technology Acceptance Model~\cite{lit_tam} establishes that perceived usefulness and perceived
+ease of use are the primary determinants of whether users adopt a system. Together these works
+indicate that adoption of small-business software depends heavily on simplicity and clarity;
+CafeFlow applies their guidance through a clean, role-based interface, short and consistent
+workflows, and accessibility from any browser.
+
+In summary, the reviewed literature consistently shows that digitising cafe operations improves
+efficiency but hinges on user acceptance, that layered web architectures improve scalability and
+maintainability, that component-based front ends and embedded databases are appropriate
+technologies for this class of application, and that usability and perceived usefulness are
+decisive for adoption. CafeFlow combines these established findings into a single, focused cafe
+management system that is practical for small establishments and addresses the cost and
+complexity limitations identified in prior work.
 
 % ======================================================= CHAPTER 3
 \chapter{SYSTEM ANALYSIS AND DESIGN}
@@ -437,7 +475,7 @@ from creation to billing.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.95\textwidth]{usecase.png}
+  \includegraphics[width=0.62\textwidth]{usecase.png}
   \caption{Use case diagram of CafeFlow}
   \label{fig:usecase}
 \end{figure}
@@ -662,6 +700,12 @@ future:
 % ======================================================= REFERENCES
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{REFERENCES}
+\bibitem{lit_pos} Y. Ramos and A. Castro, ``Point-of-sales systems in food and beverage industry: Efficient technology and its user acceptance,'' \textit{Journal of Information Sciences and Computing Technologies}, vol.~6, no.~1, pp.~582--589, 2017.
+\bibitem{lit_web} R. T. Fielding, ``Architectural styles and the design of network-based software architectures,'' Ph.D. dissertation, Univ. of California, Irvine, CA, USA, 2000. [Online]. Available: https://roy.gbiv.com/pubs/dissertation/top.htm
+\bibitem{lit_react} ``Analysis and comparison of different frontend frameworks,'' in \textit{Applications and Techniques in Information Security (ATIS 2022)}, ser. Communications in Computer and Information Science. Singapore: Springer Nature, 2023, pp.~243--257, doi: 10.1007/978-981-99-2264-2\_19.
+\bibitem{lit_sqlite} K. P. Gaffney, M. Prammer, L. Brasfield, D. R. Hipp, D. Kennedy, and J. M. Patel, ``SQLite: Past, present, and future,'' \textit{Proc. VLDB Endowment}, vol.~15, no.~12, pp.~3535--3547, 2022, doi: 10.14778/3554821.3554842.
+\bibitem{lit_usability} J. Nielsen, ``Enhancing the explanatory power of usability heuristics,'' in \textit{Proc. SIGCHI Conf. on Human Factors in Computing Systems (CHI '94)}, Boston, MA, USA, 1994, pp.~152--158, doi: 10.1145/191666.191729.
+\bibitem{lit_tam} F. D. Davis, ``Perceived usefulness, perceived ease of use, and user acceptance of information technology,'' \textit{MIS Quarterly}, vol.~13, no.~3, pp.~319--340, 1989, doi: 10.2307/249008.
 \bibitem{nextjs} Vercel, ``Next.js Documentation,'' [Online]. Available: https://nextjs.org/docs
 \bibitem{react} Meta, ``React Documentation,'' [Online]. Available: https://react.dev
 \bibitem{ts} Microsoft, ``TypeScript Documentation,'' [Online]. Available: https://www.typescriptlang.org/docs
