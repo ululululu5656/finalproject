@@ -1,298 +1,237 @@
 % CafeFlow - Project Log Book (10 meeting entries)
 % Compile: pdflatex logbook.tex
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.9in]{geometry}
 \pagenumbering{gobble}
 \setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
 
-\newcommand{\sheettitle}{\begin{center}{\Large\bfseries Project Log Book Entry Sheet}\end{center}\vspace{6mm}}
+% Tight enumerate without enumitem
+\newenvironment{tlist}
+  {\begin{list}{\arabic{enumi}.}{%
+     \usecounter{enumi}%
+     \setlength{\topsep}{1pt}\setlength{\partopsep}{0pt}%
+     \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}%
+     \setlength{\leftmargin}{6mm}\setlength{\labelwidth}{4mm}%
+     \setlength{\labelsep}{2mm}}}
+  {\end{list}}
 
 % #1 meeting no, #2 date, #3 start, #4 finish
-\newcommand{\hdr}[4]{%
+\newcommand{\meeting}[4]{%
+  \vspace{2mm}
+  \noindent\rule{\textwidth}{0.4pt}\par\vspace{1mm}
   \noindent
   \begin{minipage}[t]{0.5\textwidth}
-    Meeting No.: #1\\[2mm]
+    \textbf{Meeting No.: #1}\\[1mm]
     Start Time: #3
   \end{minipage}%
   \begin{minipage}[t]{0.5\textwidth}
     \raggedleft
-    Date: #2\\[2mm]
+    \textbf{Date: #2}\\[1mm]
     Finish Time: #4
-  \end{minipage}\par\vspace{6mm}
+  \end{minipage}\par\vspace{2mm}
 }
 
-\newcommand{\foot}{%
-  \par\vspace{8mm}
-  \noindent\rule{\textwidth}{0.4pt}\par\vspace{5mm}
-  \noindent
-  \begin{minipage}[t]{0.5\textwidth}
-    {\large\bfseries Students Name:}\\[2mm]
-    Amit Tharu
-  \end{minipage}%
-  \begin{minipage}[t]{0.5\textwidth}
-    \raggedleft
-    {\large\bfseries Supervisor Signature}
-  \end{minipage}
-}
-
-\newcommand{\heading}[1]{\vspace{4mm}{\large\bfseries #1}\par\vspace{1mm}}
+\newcommand{\heading}[1]{\vspace{1.5mm}{\bfseries #1}\par\vspace{0.5mm}}
 
 \begin{document}
 
+\begin{center}{\Large\bfseries Project Log Book Entry Sheet}\\[1mm]
+{\normalsize CafeFlow -- A Cafe Management System \quad|\quad Amit Tharu}\end{center}
+
 % ---------------- Meeting 01 ----------------
-\sheettitle
-\hdr{01}{23/11}{9:00 AM}{10:00 AM}
+\meeting{01}{23/11}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Introduction to final year project requirements
   \item Explanation of project phases and deadlines
   \item Overview of documentation chapters (Introduction, Literature Review, etc.)
   \item IEEE format, abstract writing, and reference guidelines
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Understood complete project roadmap
   \item Received project guideline document
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt \item Brainstorm project ideas \end{enumerate}
-\foot
-\newpage
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Brainstorm project ideas
 
 % ---------------- Meeting 02 ----------------
-\sheettitle
-\hdr{02}{30/11}{9:00 AM}{10:00 AM}
+\meeting{02}{30/11}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Presented the project ideas
   \item Finalized ``CafeFlow -- A Cafe Management System''
   \item Discussed problem statement, objectives and significance
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Project title approved
   \item Problem statement drafted
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Write Introduction chapter
-  \item Perform feasibility study
-\end{enumerate}
-\foot
-\newpage
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Write Introduction chapter; perform feasibility study
 
 % ---------------- Meeting 03 ----------------
-\sheettitle
-\hdr{03}{14/12}{9:00 AM}{10:00 AM}
+\meeting{03}{14/12}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item How to write literature review
   \item Citation and reference in IEEE format
   \item Use of Google Scholar and research papers
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Learned IEEE citation style
   \item Collected research papers for literature review
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Complete literature review draft
-  \item Prepare reference list
-\end{enumerate}
-\foot
-\newpage
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Complete literature review draft; prepare reference list
 
 % ---------------- Meeting 04 ----------------
-\sheettitle
-\hdr{04}{28/12}{9:00 AM}{10:00 AM}
+\meeting{04}{28/12}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Reviewed Introduction and Literature Review chapters
   \item Finalized functional and non-functional requirements
   \item Feasibility study (technical, operational, economic, schedule)
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Chapters 1 and 2 completed
   \item Feasibility confirmed
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Start system design (UML diagrams)
-  \item Decide technology stack
-\end{enumerate}
-\foot
-\newpage
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Start system design (UML diagrams); decide technology stack
 
 % ---------------- Meeting 05 ----------------
-\sheettitle
-\hdr{05}{11/01}{9:00 AM}{10:00 AM}
+\meeting{05}{11/01}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item System design chapter writing
   \item UML diagrams (ER, Component, Deployment, Process Flow)
   \item Project proposal format and submission deadline
   \item Mid defense preparation guidelines
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Learned to create diagrams using Draw.io / Graphviz
   \item Understood proposal structure
   \item Started working on ER and Component diagrams
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Complete all UML diagrams
-  \item Submit project proposal
-\end{enumerate}
-\foot
-\newpage
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Complete all UML diagrams; submit project proposal
 
 % ---------------- Meeting 06 ----------------
-\sheettitle
-\hdr{06}{25/01}{9:00 AM}{10:00 AM}
+\meeting{06}{25/01}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Reviewed ER and Component diagrams
   \item Technology stack confirmation (Next.js, TypeScript, SQLite)
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item All UML diagrams approved by supervisor
   \item Development environment setup (VS Code, GitHub, Node.js)
-\end{enumerate}
+\end{tlist}
 \heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt
-  \item I had confusion in showing relationships in the ER diagram (one-to-many vs many-to-many). The supervisor helped to correct them.
-\end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Start frontend development (login and dashboard pages)
-  \item Set up project with TypeScript
-\end{enumerate}
-\foot
-\newpage
+\begin{tlist}
+  \item Confusion in showing ER relationships (one-to-many vs many-to-many); supervisor helped correct them.
+\end{tlist}
+\heading{Task for next meeting:} Start frontend development (login and dashboard); set up project with TypeScript
 
 % ---------------- Meeting 07 ----------------
-\sheettitle
-\hdr{07}{01/02}{9:00 AM}{10:00 AM}
+\meeting{07}{01/02}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Authentication and dashboard implementation progress
   \item Role-based access (Admin vs Staff)
   \item Menu and order management modules
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Email/password authentication working
   \item Role-based dashboards for Admin and Staff
   \item Database connected successfully (SQLite)
-\end{enumerate}
+\end{tlist}
 \heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt
-  \item Session management was not working properly initially. Fixed using secure HTTP-only cookies.
-\end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Build order and billing modules
-  \item Prepare for mid defense
-\end{enumerate}
-\foot
-\newpage
+\begin{tlist}
+  \item Session management not working initially. Fixed using secure HTTP-only cookies.
+\end{tlist}
+\heading{Task for next meeting:} Build order and billing modules; prepare for mid defense
 
 % ---------------- Meeting 08 ----------------
-\sheettitle
-\hdr{08}{08/03}{9:00 AM}{10:00 AM}
+\meeting{08}{08/03}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Presentation to supervisor (15 minutes)
   \item Live demo of working features (login, menu, orders, billing)
   \item Questions and feedback
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Mid defense cleared successfully
   \item Supervisor appreciated the concept and working prototype
   \item Received constructive feedback
-\end{enumerate}
+\end{tlist}
 \heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt
-  \item The supervisor said the user interface could be more polished.
-  \item Some examiners pointed out that test cases were not sufficient.
-\end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Improve UI design (cleaner and more professional)
-  \item Add more test cases (unit and system testing)
-  \item Complete remaining report chapters
-\end{enumerate}
-\foot
-\newpage
+\begin{tlist}
+  \item Supervisor said the user interface could be more polished.
+  \item Examiners pointed out that test cases were not sufficient.
+\end{tlist}
+\heading{Task for next meeting:} Improve UI design; add more test cases; complete remaining report chapters
 
 % ---------------- Meeting 09 ----------------
-\sheettitle
-\hdr{09}{29/03}{9:00 AM}{10:00 AM}
+\meeting{09}{29/03}{9:00 AM}{10:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Final report review (all chapters)
   \item Abstract writing and conclusion
   \item Future recommendations
   \item Final defense presentation and viva preparation
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Final report draft completed in LaTeX
   \item All diagrams inserted properly
   \item 25 automated end-to-end tests passing (Playwright)
   \item Presentation slides prepared
-\end{enumerate}
+\end{tlist}
 \heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Figure placement in LaTeX was tricky. Solved using the [H] option with the float package.
-  \item Had difficulty formatting test case tables. Used longtable to fix.
-\end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt
-  \item Submit final report
-  \item Prepare for viva questions
-\end{enumerate}
-\foot
-\newpage
+  \item Difficulty formatting test case tables. Used longtable to fix.
+\end{tlist}
+\heading{Task for next meeting:} Submit final report; prepare for viva questions
 
 % ---------------- Meeting 10 ----------------
-\sheettitle
-\hdr{10}{17/05}{10:00 AM}{11:00 AM}
+\meeting{10}{17/05}{10:00 AM}{11:00 AM}
 \heading{Discussion Topics:}
-\begin{enumerate}\itemsep1pt
+\begin{tlist}
   \item Final defense schedule and date confirmation
   \item Rules and regulations for final defense
   \item Presentation duration and discipline
-  \item Documents to bring on defense day
-  \item Backup slides and live demo guidelines
-\end{enumerate}
-\heading{Achievements}
-\begin{enumerate}\itemsep1pt
+  \item Documents to bring on defense day; backup slides and live demo guidelines
+\end{tlist}
+\heading{Achievements:}
+\begin{tlist}
   \item Understood all rules and regulations for final defense
   \item Prepared checklist for defense day
-\end{enumerate}
-\heading{Problems (if any):}
-\begin{enumerate}\itemsep1pt \item None \end{enumerate}
-\heading{Task for next meeting:}
-\begin{enumerate}\itemsep1pt \item Complete final report submission \end{enumerate}
-\foot
+\end{tlist}
+\heading{Problems (if any):} None\par
+\heading{Task for next meeting:} Complete final report submission
+
+\vspace{4mm}
+\noindent\rule{\textwidth}{0.4pt}\par\vspace{3mm}
+\noindent
+\begin{minipage}[t]{0.5\textwidth}
+  {\bfseries Student's Name:}\\[1mm] Amit Tharu
+\end{minipage}%
+\begin{minipage}[t]{0.5\textwidth}
+  \raggedleft {\bfseries Supervisor Signature}
+\end{minipage}
 
 \end{document}

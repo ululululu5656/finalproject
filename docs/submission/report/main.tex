@@ -18,10 +18,10 @@
 \usepackage[hidelinks]{hyperref}
 
 \graphicspath{{../assets/}{../assets/diagrams/}{../assets/screenshots/}}
-\onehalfspacing
+\setstretch{1.1}
 \captionsetup{labelfont=bf,font=small}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
+\setlength{\parskip}{3pt}
 
 % Chapter heading: "Chapter N:" then the title, centred.
 \titleformat{\chapter}[display]
@@ -197,7 +197,11 @@ Signature:
 \tableofcontents
 \listoffigures
 \addcontentsline{toc}{chapter}{LIST OF FIGURES}
+% Keep the short List of Tables on the same page as List of Figures.
+\begingroup
+\let\clearpage\relax
 \listoftables
+\endgroup
 \addcontentsline{toc}{chapter}{LIST OF TABLES}
 
 % ----------------------------------- List of Abbreviations
@@ -310,7 +314,7 @@ throughout development.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.55\textwidth]{methodology.png}
+  \includegraphics[width=0.48\textwidth]{methodology.png}
   \caption{Agile / iterative development methodology}
   \label{fig:method}
 \end{figure}
@@ -489,14 +493,14 @@ shows the administrator dashboard with live statistics and charts.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.6\textwidth]{01-login.png}
+  \includegraphics[width=0.50\textwidth]{01-login.png}
   \caption{Login interface of CafeFlow}
   \label{fig:login}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{02-dashboard.png}
+  \includegraphics[width=0.52\textwidth]{02-dashboard.png}
   \caption{Administrator dashboard of CafeFlow}
   \label{fig:dash}
 \end{figure}
@@ -511,7 +515,7 @@ correct even if the menu later changes.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{er.png}
+  \includegraphics[width=0.46\textwidth]{er.png}
   \caption{Entity relationship diagram of CafeFlow}
   \label{fig:er}
 \end{figure}
@@ -524,7 +528,7 @@ write the SQLite database. Figure~\ref{fig:arch} shows these components.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.85\textwidth]{architecture.png}
+  \includegraphics[width=0.54\textwidth]{architecture.png}
   \caption{Component / architecture diagram of CafeFlow}
   \label{fig:arch}
 \end{figure}
@@ -536,7 +540,7 @@ access the system through a web browser. Figure~\ref{fig:deploy} shows the deplo
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{deployment.png}
+  \includegraphics[width=0.64\textwidth]{deployment.png}
   \caption{Deployment diagram of CafeFlow}
   \label{fig:deploy}
 \end{figure}
@@ -715,40 +719,26 @@ future:
 
 The following screenshots show the main modules of the working CafeFlow application.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{03-menu.png}
-  \caption{Menu management}
-\end{figure}
+\par\vspace{4mm}
+% Non-floating image grid so screenshots flow and break naturally (no blank float pages).
+\newcommand{\appshot}[2]{%
+  \begin{minipage}[t]{0.40\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{#1}\\[1mm]
+    \footnotesize\captionof{figure}{#2}
+  \end{minipage}}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{04-orders-new.png}
-  \caption{Order builder (new order)}
-\end{figure}
+\begin{center}
+\appshot{03-menu.png}{Menu management}\hspace{6mm}%
+\appshot{04-orders-new.png}{Order builder (new order)}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{06-billing.png}
-  \caption{Billing and itemised bill preview}
-\end{figure}
+\vspace{5mm}
+\appshot{06-billing.png}{Billing and itemised bill preview}\hspace{6mm}%
+\appshot{07-inventory.png}{Inventory management}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{07-inventory.png}
-  \caption{Inventory management}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{08-reports.png}
-  \caption{Reports and analytics}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{09-staff.png}
-  \caption{Staff management}
-\end{figure}
+\vspace{5mm}
+\appshot{08-reports.png}{Reports and analytics}\hspace{6mm}%
+\appshot{09-staff.png}{Staff management}
+\end{center}
 
 \end{document}
