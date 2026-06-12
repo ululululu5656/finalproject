@@ -26,3 +26,11 @@ node_modules
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+# LaTeX build artifacts
+*.aux
+*.lof
+*.lot
+*.toc
+*.out
+docs/submission/report/main.pdf
+*.log
