@@ -1,23 +1,26 @@
 digraph Architecture {
   rankdir=TB;
-  graph [bgcolor=white, fontname="Helvetica", fontsize=13, compound=true];
-  node  [fontname="Helvetica", shape=box, style="rounded,filled"];
-  edge  [fontname="Helvetica", fontsize=10, color="#334155"];
+  bgcolor=white;
+  graph [fontname="Helvetica", fontsize=13, compound=true];
+  node  [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", fillcolor="#eef4ff", color="#4a6fa5"];
+  edge  [fontname="Helvetica", fontsize=10, color="#333333"];
 
   subgraph cluster_client {
-    label="Client  (Web Browser)"; fontname="Helvetica-Bold"; color="#6366f1"; style="rounded";
-    UI    [label="Next.js / React UI\n(pages + UI components)", fillcolor="#e0e7ff", color="#6366f1"];
-    store [label="Zustand State Stores\n(auth, menu, orders, ...)", fillcolor="#e0e7ff", color="#6366f1"];
+    label="Presentation Tier  -  Web Browser"; fontname="Helvetica-Bold";
+    style=filled; fillcolor="#f4f8ff"; color="#4a6fa5";
+    UI    [label="Next.js / React UI\n(pages + UI components)"];
+    store [label="Zustand State Stores\n(auth, menu, orders, ...)"];
   }
 
   subgraph cluster_server {
-    label="Application Server  (Next.js / Node.js)"; fontname="Helvetica-Bold"; color="#0ea5e9"; style="rounded";
-    api  [label="API Route Handlers\n/api/auth, /api/menu, /api/orders ...", fillcolor="#e0f2fe", color="#0284c7"];
-    auth [label="Auth Module\n(bcrypt + cookie sessions)", fillcolor="#e0f2fe", color="#0284c7"];
-    repo [label="Data Access Layer\n(repository functions)", fillcolor="#e0f2fe", color="#0284c7"];
+    label="Application Tier  -  Next.js / Node.js"; fontname="Helvetica-Bold";
+    style=filled; fillcolor="#eef2fb"; color="#4a6fa5";
+    api  [label="API Route Handlers\n/api/auth, /api/menu, /api/orders ..."];
+    auth [label="Auth Module\n(bcrypt + cookie sessions)"];
+    repo [label="Data Access Layer\n(repository functions)"];
   }
 
-  db [label="SQLite Database\n(better-sqlite3, cafeflow.db)", shape=cylinder, fillcolor="#dcfce7", color="#16a34a"];
+  db [label="Data Tier  -  SQLite Database\n(better-sqlite3, cafeflow.db)", shape=cylinder, fillcolor="#eefbf0", color="#4a6fa5"];
 
   UI -> store [dir=both, label="render / update"];
   store -> api [label="fetch (JSON over HTTP)"];

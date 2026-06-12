@@ -1,0 +1,77 @@
+@startuml
+' Entity-Relationship diagram of CafeFlow - crow's-foot / Information Engineering
+' notation (matches the reference report style).
+skinparam dpi 150
+skinparam shadowing false
+skinparam linetype ortho
+hide circle
+skinparam class {
+  BackgroundColor #eef4ff
+  BorderColor #4a6fa5
+  ArrowColor #333333
+}
+
+entity "users" as User {
+  * id : PK
+  --
+  name
+  email
+  role
+  phone
+  password_hash
+  created_at
+}
+
+entity "sessions" as Session {
+  * token : PK
+  --
+  user_id : FK
+  created_at
+}
+
+entity "menu_items" as Menu {
+  * id : PK
+  --
+  name
+  category
+  price
+  available
+  description
+}
+
+entity "inventory_items" as Inventory {
+  * id : PK
+  --
+  name
+  quantity
+  unit
+  low_stock_threshold
+  category
+}
+
+entity "orders" as Order {
+  * id : PK
+  --
+  table_number
+  customer_name
+  status
+  total
+  created_at
+  updated_at
+}
+
+entity "order_items" as OrderItem {
+  * id : PK
+  --
+  order_id : FK
+  menu_item_id : FK
+  name
+  category
+  price
+  quantity
+}
+
+User  ||--o{ Session    : has
+Order ||--o{ OrderItem  : contains
+Menu  ||--o{ OrderItem  : "captured in"
+@enduml

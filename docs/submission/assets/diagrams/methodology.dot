@@ -1,9 +1,10 @@
 digraph Methodology {
   layout=circo;
-  graph [bgcolor=white, fontname="Helvetica", fontsize=13];
+  bgcolor=white;
+  graph [fontname="Helvetica", fontsize=13];
   node  [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled",
-          fillcolor="#e0e7ff", color="#6366f1"];
-  edge  [fontname="Helvetica", color="#6366f1"];
+          fillcolor="#eef4ff", color="#4a6fa5"];
+  edge  [fontname="Helvetica", color="#333333"];
 
   Requirements -> Design -> Implementation -> Testing -> Review -> Requirements;
 }
